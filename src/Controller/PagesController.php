@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -12,6 +13,7 @@
  * @since     0.2.9
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Core\Configure;
@@ -26,45 +28,43 @@ use Cake\View\Exception\MissingTemplateException;
  *
  * @link http://book.cakephp.org/3.0/en/controllers/pages-controller.html
  */
-class PagesController extends AppController
-{
+class PagesController extends AppController {
 
-    /**
-     * Displays a view
-     *
-     * @return void|\Cake\Network\Response
-     * @throws \Cake\Network\Exception\ForbiddenException When a directory traversal attempt.
-     * @throws \Cake\Network\Exception\NotFoundException When the view file could not
-     *   be found or \Cake\View\Exception\MissingTemplateException in debug mode.
-     */
-    public function display()
-    {
-        $path = func_get_args();
-
-        $count = count($path);
-        if (!$count) {
-            return $this->redirect('/');
-        }
-        if (in_array('..', $path, true) || in_array('.', $path, true)) {
-            throw new ForbiddenException();
-        }
-        $page = $subpage = null;
-
-        if (!empty($path[0])) {
-            $page = $path[0];
-        }
-        if (!empty($path[1])) {
-            $subpage = $path[1];
-        }
-        $this->set(compact('page', 'subpage'));
-
-        try {
-            $this->render(implode('/', $path));
-        } catch (MissingTemplateException $e) {
-            if (Configure::read('debug')) {
-                throw $e;
-            }
-            throw new NotFoundException();
-        }
+    public function initialize() {
+        //die(pr($_REQUEST));
+        parent::initialize();
     }
+    
+    public function allshouts() {
+        
+        $this->loadModel('Shouts');
+        $shout = $this->Shouts->newEntity();
+
+        if ($this->request->is('post')) {
+            $shout = $this->Shouts->patchEntity($shout, $this->request->data);
+            if ($this->Shouts->save($shout)) {
+                $this->Flash->success('Your shout out has been added');
+                $this->redirect(['action' => 'allshouts']);
+            } else {
+                $this->Flash->error('There was an issue while attempting to save your shout out.');
+            }
+        }
+
+        $shouts = $this->Shouts->find('all')
+                ->order('created DESC')
+                ->limit(20);
+
+        $this->set('shouts', $shouts);  //Passinig variable to view
+        $this->set('shout', $shout);  //Passinig variable to view
+        //die('HERE');
+    }
+
+    public function about() {
+        
+    }
+
+    public function index() {
+        $this->redirect(['action' => 'allshouts']);
+    }
+
 }

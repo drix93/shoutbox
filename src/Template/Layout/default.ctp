@@ -1,57 +1,117 @@
-<?php
-/**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = 'CakePHP: the rapid development php framework';
-?>
 <!DOCTYPE html>
-<html>
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
+<html lang="en">
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
+    <head>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-</head>
-<body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
-        </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="http://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
-            </ul>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="<?= WEBROOT ?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- MetisMenu CSS -->
+        <link href="<?= WEBROOT ?>vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="<?= WEBROOT ?>css/sb-admin-2.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="<?= WEBROOT ?>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+
+        <div id="wrapper">
+
+            <!-- Navigation -->
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <?= $this->Html->link('Shout Box', '/', ['class' => 'navbar-brand']) ?>
+                </div>
+
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse">
+                        <ul class="nav" id="side-menu">
+                            <li class="sidebar-search">
+                                <?php echo $this->Form->create((isset($shout)?$shout:null), ['url' => ['controller' => 'pages','action' => 'allshouts']]); ?>
+                                <div class="input-group custom-search-form">
+                                    <?php  
+                                    echo $this->Form->input('shout_text', ['value' => 'Guest', 'type' => 'hidden']);
+                                    echo $this->Form->input('shout_text', 
+                                            array(
+                                                'class' => 'form-control', 
+                                                'placeholder' => 'Quick shout out ...',
+                                                'label' => false,
+                                                'type' => 'text'
+                                                )); 
+                                    ?>
+<!--                                    <input type="text" class="form-control" placeholder="Search...">-->
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">
+                                            <i class="fa fa-comments"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <?php echo $this->Form->end(); ?>
+                            </li>
+                            <li>
+                                <?= $this->Html->link('<i class="fa fa-comments fa-fw"></i> Shout Outs', ['controller' => 'pages', 'action' => 'allshouts'], ['escape' => false]) ?>
+                            </li>
+                            <li>                                
+                                <?= $this->Html->link('<i class="fa fa-info-circle fa-fw"></i> About Project', ['controller' => 'pages', 'action' => 'about'], ['escape' => false]) ?>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </div>
+                <!-- /.navbar-static-side -->
+            </nav>
+
+            <!-- Page Content -->
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!--<h1 class="page-header">Blank</h1>-->
+                            <?= $this->Flash->render() ?>
+                            <?= $this->fetch('content') ?>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /#page-wrapper -->
+
         </div>
-    </nav>
-    <?= $this->Flash->render() ?>
-    <div class="container clearfix">
-        <?= $this->fetch('content') ?>
-    </div>
-    <footer>
-    </footer>
-</body>
+        <!-- /#wrapper -->
+
+        <!-- jQuery -->
+        <script src="<?= WEBROOT ?>/vendor/jquery/jquery.min.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="<?= WEBROOT ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="<?= WEBROOT ?>/vendor/metisMenu/metisMenu.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="<?= WEBROOT ?>js/sb-admin-2.js"></script>
+
+    </body>
+
 </html>
